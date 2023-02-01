@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.logicng.formulas.*;
 import org.logicng.io.parsers.ParserException;
+import org.logicng.solvers.MiniSat;
+import org.logicng.solvers.SATSolver;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -33,7 +35,18 @@ public class MyActionListener implements ActionListener{
         FormulaFactory f=new FormulaFactory();
         try {
             Formula f1=f.parse(s);
-            jf.ta.setText(s);
+            SATSolver solver = MiniSat.miniSat(f);
+            solver.add(f1);
+
+            jf.ta.setText(s+"\n"+"La formula inserita ha:\n-"
+                +f1.numberOfAtoms()+" atomi\n-"
+                +f1.numberOfOperands()+" operandi\n-"
+                +f1.numberOfNodes()+" nodi\n-"
+                +f1.numberOfInternalNodes()+" nodi interni\n"
+                +"La formula è soddisfacibile:"+f1.isSatisfiable()
+                +"\nun possibile modello è: "+solver.enumerateAllModels().iterator().next()
+                );
+            
             jf.clean.setEnabled(true);
             jf.invio.setEnabled(false);
         } catch (ParserException e) {
