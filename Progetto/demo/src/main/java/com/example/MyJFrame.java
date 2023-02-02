@@ -10,16 +10,18 @@ import javax.swing.JTextField;
 
 public class MyJFrame extends JFrame{
     JPanel p;
-    JTextField tf;
+    JTextField tf1,tf2;
     JTextArea ta;
-    JLabel l;
+    JLabel l1,l2;
     JScrollPane sp;
     JButton invio,clean;
     MyActionListener listener=new MyActionListener(this);
     public MyJFrame(){
         p=new JPanel();
-        tf=new JTextField(30);
-        l=new JLabel("Scrivere formula proposizionale");
+        tf1=new JTextField(45);
+        l1=new JLabel("Scrivere insieme formule proposizionali separate da ';'");
+        tf2=new JTextField(30);
+        l2=new JLabel("Scrivere formula da implicare");
         ta=new JTextArea(30,40 );
         ta.setEditable(false);
         ta.setBounds(100,100,300,200);
@@ -29,8 +31,10 @@ public class MyJFrame extends JFrame{
         clean=new JButton("Clean");
         clean.addActionListener(listener);
         clean.setEnabled(false);
-        p.add(l);
-        p.add(tf);
+        p.add(l1);
+        p.add(tf1);
+        p.add(l2);
+        p.add(tf2);
         p.add(invio);
         p.add(clean);
         p.add(sp);
