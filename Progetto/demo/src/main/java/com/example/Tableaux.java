@@ -1,11 +1,15 @@
 package com.example;
+import java.util.LinkedHashSet;
+
 import org.logicng.formulas.*;
 
 public class Tableaux{
     public FormulaFactory f;
+    public Node root;
     
-    public Tableaux(){
+    public Tableaux(LinkedHashSet<Formula> path,LinkedHashSet<Formula> current){
         this.f= new FormulaFactory();
+        this.root=new Node(path,current);
     }
 
 
@@ -126,5 +130,19 @@ public class Tableaux{
         return false;
     }
 
+}
+class Node {
+    public LinkedHashSet<Formula> path;
+    public LinkedHashSet<Formula> current;
+    public Node left;
+    public Node right;
+    public boolean closed;
+
+    Node(LinkedHashSet<Formula> path,LinkedHashSet<Formula> current) {
+        this.path = path;
+        this.current = current;
+        right = null;
+        left = null;
+    }
 }
         
