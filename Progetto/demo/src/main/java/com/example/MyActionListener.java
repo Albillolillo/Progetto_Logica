@@ -6,11 +6,8 @@ import java.util.LinkedHashSet;
 
 import org.logicng.formulas.*;
 import org.logicng.io.parsers.ParserException;
-import org.logicng.solvers.MiniSat;
-import org.logicng.solvers.SATSolver;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 public class MyActionListener implements ActionListener{
     private MyJFrame jf;
@@ -47,41 +44,32 @@ public class MyActionListener implements ActionListener{
             }
         }
 
-        try {
-            setFormulas.add((f.parse(s2)).negate());
-        } catch (ParserException e) {
-            e.printStackTrace();
+        if(s2.length()>0){
+            try {
+                setFormulas.add((f.parse(s2)).negate());
+            } catch (ParserException e) {
+                e.printStackTrace();
+            }
         }
 
         Tableaux T=new Tableaux(null, setFormulas,f);
-
         System.out.println(setFormulas);
         
-        try {
-            Formula f1=T.f.parse(s2);
+        boolean stcaz=T.tableaux_algorithm(T.root);
+        
+
             //SATSolver solver = MiniSat.miniSat(f);
             //solver.add(f1);
 
-            LinkedHashSet<Formula> figli=new LinkedHashSet<>();
-            String operator=T.what(f1,figli);
 
 
-            jf.ta.setText(s2+"\n"+"La formula inserita ha:\n-"
-                +f1.numberOfAtoms()+" atomi\n-"
-                +f1.numberOfOperands()+" operandi\n-"
-                +f1.numberOfNodes()+" nodi\n-"
-                +f1.numberOfInternalNodes()+" nodi interni\n"
-                /*+"La formula è soddisfacibile:"+f1.isSatisfiable()
-                +"\nun possibile modello è: "+solver.enumerateAllModels().iterator().next()*/
-                +"\nle due formule "+figli.toString()+"sono legate da "+operator
-                );
+            jf.ta.setText("ha funzionato?"+stcaz);
 
             jf.clean.setEnabled(true);
             jf.invio.setEnabled(false);
-        } catch (ParserException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null,"La proposizione inserita non è una formula ");
-        }
+        
+            //JOptionPane.showMessageDialog(null,"La proposizione inserita non è una formula ");
+        
         
     }
     public void clean(){
