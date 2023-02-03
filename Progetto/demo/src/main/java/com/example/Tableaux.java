@@ -149,43 +149,101 @@ public class Tableaux{
         if(this.is_not_impl(subform_array, ret) != null){return this.is_not_impl(subform_array, ret);}
         return null;
     }
-    public boolean tableaux_algorithm(Node root,Formula f){
+
+    public boolean are_all_branches_closed(Node root){
         if(root.left.closed == true)
             return true;
+        else
+            return are_all_branches_closed(root.left) && are_all_branches_closed(root.right);
+
+    }
+
+
+    public boolean tableaux_algorithm(Node root){
+        if(are_all_branches_closed(root))
+            return true;
         
-        LinkedHashSet<Formula> operands= new LinkedHashSet<>();
         
-        switch (what(f,operands)) {
-            case "is_not_and":
-                LinkedHashSet<Formula> path = (LinkedHashSet<Formula>)root.path.clone();
-                for(Formula i:root.current){
-                    path.add(i);
-                }
-                Formula[] subform_array = new Formula[2];
-                subform_array= operands.toArray(subform_array);
-                LinkedHashSet<Formula> current= new LinkedHashSet<Formula>();
-                current.add(subform_array[0].negate());
-                Node left=new Node(path,current);
+        LinkedHashSet<Formula> path = (LinkedHashSet<Formula>)root.path.clone();
+        for(Formula i:root.current){
+            path.add(i);
+        }
+        
+        Formula[] operands_array= new Formula[2];
+        Node left,right;
+        Formula[] current_array=new Formula[root.current.size()];
+        current_array=root.current.toArray(current_array);
+        LinkedHashSet<Formula> current= new LinkedHashSet<Formula>();
+        for(int i=0;i < current_array.length;i++) {
+            LinkedHashSet<Formula> operands= new LinkedHashSet<>();
+            Formula[] operands_array= new Formula[2];
+            Formula f = current_array[i];
+            switch (what(f,operands)){
+                case "is_not_and":
+                    operands_array= operands.toArray(operands_array);
+                    
+                    for(int j=i+1;j < root.current.size(); j++){
+                        current.add(current_array[i]);
+                    }
+                    current.add(operands_array[0].negate());
+                    left=new Node(path,current);
+                    current=new LinkedHashSet<>();
+                    
+                    for(int j=i+1;j < root.current.size();j++){
+                        current.add(current_array[j]);
+                    }
+                    current.add(operands_array[1].negate());
+                    right= new Node(path,current);
+                    return tableaux_algorithm(left) && tableaux_algorithm(right);
+
+                case "is_not_or":
+                    break;
+                case "is_not_impl":
+
+                    break;
+                case "is_or":
+                    operands_array= operands.toArray(operands_array);
+                    
+                    for(int i=1;i < root.current.size();i++){
+                        current.add(current_array[i]);
+                    }
+                    current.add(operands_array[0]);
+                    left=new Node(path,current);
+                    current=new LinkedHashSet<>();
+                    
+                    for(int i=1;i < root.current.size();i++){
+                        current.add(current_array[i]);
+                    }
+                    current.add(operands_array[1]);
+                    right= new Node(path,current);
+                    return tableaux_algorithm(left) && tableaux_algorithm(right);
+                   
+                    
+
+                case "is_and":
+
+                    break;
+                case "is_impl":
+                    operands_array= operands.toArray(operands_array);
+                    
+                    for(int i=1;i < root.current.size();i++){
+                        current.add(current_array[i]);
+                    }
+                    current.add(operands_array[0]);
+                    left=new Node(path,current);
+                    current=new LinkedHashSet<>();
                 
-                
-                break;
-            case "is_not_or":
-                break;
-            case "is_not_impl":
-
-                break;
-            case "is_or":
-
-                break;
-            case "is_not":
-
-                break;
-            case "is_impl":
-
-                break;
+                    for(int i=1;i < root.current.size();i++){
+                        current.add(current_array[i]);
+                    }
+                    current.add(operands_array[1]);
+                    right= new Node(path,current);
+                    return tableaux_algorithm(left) && tableaux_algorithm(right);
+                    
         
-            default:
-                return false;
+                default:
+                    return false;
+            }
         }
 
 
@@ -193,8 +251,9 @@ public class Tableaux{
 
         return false;
     }
-
 }
+
+
 class Node {
     public LinkedHashSet<Formula> path;
     public LinkedHashSet<Formula> current;
@@ -205,6 +264,7 @@ class Node {
     Node(LinkedHashSet<Formula> path,LinkedHashSet<Formula> current) {
         this.path = path;
         this.current = current;
+        closed=false;
         right = null;
         left = null;
     }
