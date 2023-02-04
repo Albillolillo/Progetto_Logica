@@ -9,10 +9,11 @@ import javax.swing.JTextArea;
 import org.logicng.formulas.Formula;
 
 public class TreePrinter {
-    private JTextArea ta;
+    String ret;
     private Node root;
-    public TreePrinter(JTextArea ta,Node root){
-        this.ta=ta;
+
+    public TreePrinter(String ret,Node root){
+        this.ret=ret;
         this.root=root;
 
     }
@@ -39,10 +40,10 @@ public class TreePrinter {
         for (Node node : nodes) {
             if (node != null) {
                 if(node.closed == true){
-                    this.ta.append("X");
+                    this.ret+="X";
                 }else{
                     for(Formula f :node.current){
-                        ta.append(f + ", ");
+                        this.ret+=f.toString() + ", ";
                     }
                     newNodes.add(node.left);
                     newNodes.add(node.right);
@@ -50,12 +51,12 @@ public class TreePrinter {
             } else {
                 newNodes.add(null);
                 newNodes.add(null);
-                ta.append(" ");
+                this.ret+=" ";
             }
 
             this.printWhitespaces(betweenSpaces);
         }
-            ta.append("\n");
+            this.ret+="\n";
 
         for (int i = 1; i <= endgeLines; i++) {
             for (int j = 0; j < nodes.size(); j++) {
@@ -66,21 +67,21 @@ public class TreePrinter {
                 }
 
                 if (nodes.get(j).left != null)
-                    this.ta.append("/");
+                    this.ret+="/";
                 else
-                    this.printWhitespaces(1);
+                this.printWhitespaces(1);
 
                 this.printWhitespaces(i + i - 1);
 
                 if (nodes.get(j).right != null)
-                    ta.append("\\");
+                    this.ret+="\\";
                 else
                     this.printWhitespaces(1);
 
                 this.printWhitespaces(endgeLines + endgeLines - i);
             }
 
-            ta.append("\n");
+            this.ret+="\n";
         }
 
         printNodeInternal(newNodes, level + 1, maxLevel);
@@ -88,7 +89,7 @@ public class TreePrinter {
 
     private  void printWhitespaces(int count) {
         for (int i = 0; i < count; i++)
-            this.ta.append(" ");
+            this.ret+=" ";
     }
 
     private   int maxLevel(Node node) {

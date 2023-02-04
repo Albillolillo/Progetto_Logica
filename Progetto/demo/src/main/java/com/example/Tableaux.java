@@ -204,15 +204,15 @@ public class Tableaux{
                         current.add(current_array[j]);
                     }
                     current.add(operands_array[0].negate());
-                    left=new Node(path,current);
+                    root.left=new Node(path,current);
                     current=new LinkedHashSet<>();
                     
                     for(int j=i+1;j < root.current.size();j++){
                         current.add(current_array[j]);
                     }
                     current.add(operands_array[1].negate());
-                    right= new Node(path,current);
-                    return tableaux_algorithm(left) && tableaux_algorithm(right);
+                    root.right= new Node(path,current);
+                    return tableaux_algorithm(root.left) && tableaux_algorithm(root.right);
 
                 case "is_not_or":
                     System.out.print("\ncase is_not_or\n");
@@ -223,8 +223,8 @@ public class Tableaux{
                     }
                     current.add(operands_array[0].negate());
                     current.add(operands_array[1].negate());
-                    left=new Node(path,current);
-                    return tableaux_algorithm(left) && true;
+                    root.left=new Node(path,current);
+                    return tableaux_algorithm(root.left) && true;
                      
                 case "is_not_impl":
                     System.out.print("\ncase is_not_impl\n");
@@ -235,8 +235,8 @@ public class Tableaux{
                     }
                     current.add(operands_array[0]);
                     current.add(operands_array[1].negate());
-                    left=new Node(path,current);
-                    return tableaux_algorithm(left) && true;
+                    root.left=new Node(path,current);
+                    return tableaux_algorithm(root.left) && true;
 
                 case "is_or":
                     System.out.print("\ncase is_or\n");
@@ -246,15 +246,15 @@ public class Tableaux{
                         current.add(current_array[j]);
                     }
                     current.add(operands_array[0]);
-                    left=new Node(path,current);
+                    root.left=new Node(path,current);
                     current=new LinkedHashSet<>();
                     
                     for(int j=i+1;j < root.current.size();j++){
                         current.add(current_array[j]);
                     }
                     current.add(operands_array[1]);
-                    right= new Node(path,current);
-                    return tableaux_algorithm(left) && tableaux_algorithm(right);
+                    root.right= new Node(path,current);
+                    return tableaux_algorithm(root.left) && tableaux_algorithm(root.right);
 
                 case "is_and":
                     System.out.print("\ncase is_and\n");
@@ -265,8 +265,8 @@ public class Tableaux{
                         }
                     current.add(operands_array[0]);
                     current.add(operands_array[1]);
-                    left=new Node(path,current);
-                    return tableaux_algorithm(left) && true;
+                    root.left=new Node(path,current);
+                    return tableaux_algorithm(root.left) && true;
 
                 case "is_impl":
                     System.out.print("\ncase is_impl\n");
@@ -276,15 +276,15 @@ public class Tableaux{
                         current.add(current_array[j]);
                     }
                     current.add(operands_array[0]);
-                    left=new Node(path,current);
+                    root.left=new Node(path,current);
                     current=new LinkedHashSet<>();
                 
                     for(int j=i+1;j < root.current.size();j++){
                         current.add(current_array[j]);
                     }
                     current.add(operands_array[1]);
-                    right= new Node(path,current);
-                    return tableaux_algorithm(left) && tableaux_algorithm(right);
+                    root.right= new Node(path,current);
+                    return tableaux_algorithm(root.left) && tableaux_algorithm(root.right);
                     
                 default:
                     break;

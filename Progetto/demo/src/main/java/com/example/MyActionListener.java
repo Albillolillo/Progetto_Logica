@@ -56,7 +56,9 @@ public class MyActionListener implements ActionListener{
         System.out.println(setFormulas);
         
         boolean stcaz=T.tableaux_algorithm(T.root);
-        TreePrinter tp=new TreePrinter(jf.ta,T.root);
+
+        String tree=new String();
+        TreePrinter tp=new TreePrinter(tree,T.root);
         tp.printNode();
         
 
@@ -65,8 +67,8 @@ public class MyActionListener implements ActionListener{
 
 
 
-            jf.ta.setText("ha funzionato?"+stcaz);
-
+            jf.ta.setText("ha funzionato?"+stcaz+"\n");
+            jf.ta.append(tp.ret);
             jf.clean.setEnabled(true);
             jf.invio.setEnabled(false);
         
