@@ -30,20 +30,20 @@ public class TreePrinter {
             return;
         System.out.println("\nsono in printnodeinternal a livello :"+ level);
         int floor = maxLevel - level;
-        int endgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
+        /*int endgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
         int firstSpaces = (int) Math.pow(2, (floor)) - 1;
-        int betweenSpaces = (int) Math.pow(2, (floor + 1)) - 1;
+        int betweenSpaces = (int) Math.pow(2, (floor + 1)) - 1;*/
 
-        this.printWhitespaces(firstSpaces);
-
+        //this.printWhitespaces(firstSpaces);
         List<Node> newNodes = new ArrayList<Node>();
+        this.ret+="[ ";
         for (Node node : nodes) {
             if (node != null) {
                 if(node.closed == true){
                     this.ret+="X";
                 }else{
                     for(Formula f :node.current){
-                        this.ret+=f.toString() + ", ";
+                        this.ret+=f.toString() + " ; ";
                     }
                     newNodes.add(node.left);
                     newNodes.add(node.right);
@@ -51,13 +51,33 @@ public class TreePrinter {
             } else {
                 newNodes.add(null);
                 newNodes.add(null);
-                this.ret+=" ";
+                this.ret+=" $ ";
             }
 
-            this.printWhitespaces(betweenSpaces);
+            this.printWhitespaces(10);
+        }
+            this.ret+=" ]";
+            this.ret+="\n";
+            //this.printWhitespaces(firstSpaces);
+            int i=0;
+        for (Node node : nodes) {
+            try {
+                if (node.left != null)
+                    this.ret+=i+" /";
+                else
+                    this.printWhitespaces(1);
+            
+                if (node.right != null)
+                    this.ret+="\\";
+                else
+                    this.printWhitespaces(10);
+            } catch (Exception e) {}
+            i++;
         }
             this.ret+="\n";
+        
 
+        /* 
         for (int i = 1; i <= endgeLines; i++) {
             for (int j = 0; j < nodes.size(); j++) {
                 this.printWhitespaces(firstSpaces - i);
@@ -69,20 +89,24 @@ public class TreePrinter {
                 if (nodes.get(j).left != null)
                     this.ret+="/";
                 else
-                this.printWhitespaces(1);
+                    this.printWhitespaces(1);
 
-                this.printWhitespaces(i + i - 1);
-
+                
+                this.printWhitespaces(i+i+1);
+                
+                
                 if (nodes.get(j).right != null)
                     this.ret+="\\";
                 else
-                    this.printWhitespaces(1);
+                    this.printWhitespaces(i + i - 1);
 
-                this.printWhitespaces(endgeLines + endgeLines - i);
+                this.printWhitespaces(endgeLines + endgeLines- i);
+                
             }
 
             this.ret+="\n";
         }
+        */
 
         printNodeInternal(newNodes, level + 1, maxLevel);
     }
