@@ -1,8 +1,5 @@
 package com.example;
 import java.util.LinkedHashSet;
-
-
-
 import org.logicng.formulas.*;
 import org.logicng.functions.SubNodeFunction;
 
@@ -181,8 +178,7 @@ public class Tableaux{
         for(Formula i:root.current){
             path.add(i);
         }
-        
-        Node left,right;
+
         Formula[] current_array=new Formula[root.current.size()];
         current_array=root.current.toArray(current_array);
         LinkedHashSet<Formula> current= new LinkedHashSet<Formula>();
@@ -194,7 +190,15 @@ public class Tableaux{
             switch (what(f,operands)){
                 case "literal":
                     System.out.print("\ncase literal\n");
-                    break;
+                    boolean verifica=false;
+                    for(Formula k1:current_array){
+                        if(f.equals(k1.negate())){
+                            verifica=true;
+                            return verifica;
+                        }
+                    }
+                        
+                    
 
                 case "is_not_and":
                     System.out.print("\ncase is_not_and\n");

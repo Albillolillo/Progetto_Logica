@@ -1,7 +1,6 @@
 package com.example;
 
 import java.util.LinkedHashSet;
-
 import org.logicng.formulas.Formula;
 
 public class Node {

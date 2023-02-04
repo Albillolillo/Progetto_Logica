@@ -3,9 +3,6 @@ package com.example;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.swing.JTextArea;
-
 import org.logicng.formulas.Formula;
 
 public class TreePrinter {
@@ -29,15 +26,16 @@ public class TreePrinter {
         if (nodes.isEmpty() || isAllElementsNull(nodes))
             return;
         System.out.println("\nsono in printnodeinternal a livello :"+ level);
-        int floor = maxLevel - level;
+        //int floor = maxLevel - level;
         /*int endgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
         int firstSpaces = (int) Math.pow(2, (floor)) - 1;
         int betweenSpaces = (int) Math.pow(2, (floor + 1)) - 1;*/
-
         //this.printWhitespaces(firstSpaces);
         List<Node> newNodes = new ArrayList<Node>();
+        int i=0;
         this.ret+="[ ";
         for (Node node : nodes) {
+            this.ret+="("+i+") ";
             if (node != null) {
                 if(node.closed == true){
                     this.ret+="X";
@@ -53,13 +51,13 @@ public class TreePrinter {
                 newNodes.add(null);
                 this.ret+=" $ ";
             }
-
+            i++;
             this.printWhitespaces(10);
         }
             this.ret+=" ]";
             this.ret+="\n";
             //this.printWhitespaces(firstSpaces);
-            int i=0;
+            i=0;
         for (Node node : nodes) {
             try {
                 if (node.left != null)

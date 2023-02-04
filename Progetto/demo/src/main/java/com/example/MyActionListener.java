@@ -3,11 +3,10 @@ package com.example;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedHashSet;
-
 import org.logicng.formulas.*;
 import org.logicng.io.parsers.ParserException;
-
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class MyActionListener implements ActionListener{
     private MyJFrame jf;
@@ -29,6 +28,7 @@ public class MyActionListener implements ActionListener{
             }
         }
     }
+
     public void invio(){
 
         FormulaFactory f=new FormulaFactory();
@@ -40,7 +40,8 @@ public class MyActionListener implements ActionListener{
             try {
                 setFormulas.add(f.parse(ls[i]));
             } catch (ParserException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,"Almeno una delle formule inserite nel set è errata");
+                return;
             }
         }
 
@@ -48,34 +49,31 @@ public class MyActionListener implements ActionListener{
             try {
                 setFormulas.add((f.parse(s2)).negate());
             } catch (ParserException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,"La proposizione da implicare non è una formula ");
+                return;
             }
         }
 
         Tableaux T=new Tableaux(null, setFormulas,f);
         System.out.println(setFormulas);
         
-        boolean stcaz=T.tableaux_algorithm(T.root);
+        boolean risultato=T.tableaux_algorithm(T.root);
 
         String tree=new String();
         TreePrinter tp=new TreePrinter(tree,T.root);
         tp.printNode();
         
-
-            //SATSolver solver = MiniSat.miniSat(f);
-            //solver.add(f1);
-
-
-
-            jf.ta.setText("ha funzionato?"+stcaz+"\n");
-            jf.ta.append(tp.ret);
-            jf.clean.setEnabled(true);
-            jf.invio.setEnabled(false);
-        
-            //JOptionPane.showMessageDialog(null,"La proposizione inserita non è una formula ");
-        
-        
+        jf.ta.setText("L'algoritmo è stato eseguito correttamente! \n");
+        if(risultato){
+            jf.ta.append("La formula "+s2+" risulta essere implicata dal set di formule: "+s1+"\n");
+        }else{
+            jf.ta.append("La formula "+s2+" risulta non essere implicata dal set di formule: "+s1+"\n");
+        }
+        jf.ta.append(tp.ret);
+        jf.clean.setEnabled(true);
+        jf.invio.setEnabled(false);
     }
+
     public void clean(){
         jf.tf1.setText("");
         jf.tf2.setText("");
