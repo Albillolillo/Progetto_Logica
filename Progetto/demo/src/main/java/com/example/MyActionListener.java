@@ -56,6 +56,8 @@ public class MyActionListener implements ActionListener{
         System.out.println(setFormulas);
         
         boolean stcaz=T.tableaux_algorithm(T.root);
+        TreePrinter tp=new TreePrinter(jf.ta,T.root);
+        tp.printNode();
         
 
             //SATSolver solver = MiniSat.miniSat(f);
