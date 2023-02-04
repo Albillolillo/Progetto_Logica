@@ -13,7 +13,7 @@ public class Tableaux{
     }
 
 
-    public String is_not_or(Formula[] subformulas,LinkedHashSet<Formula> ret){
+    private String is_not_or(Formula[] subformulas,LinkedHashSet<Formula> ret){
         int size= subformulas.length;
         if(subformulas[size-1].numberOfAtoms() == subformulas[size-2].numberOfAtoms()){
             for(int i=0; i < size-1;i++){
@@ -34,7 +34,7 @@ public class Tableaux{
         return null;
     }
 
-    public String is_not_and(Formula[] subformulas,LinkedHashSet<Formula> ret){
+    private String is_not_and(Formula[] subformulas,LinkedHashSet<Formula> ret){
         int size= subformulas.length;
         if(subformulas[size-1].numberOfAtoms() == subformulas[size-2].numberOfAtoms()){
             for(int i=0; i < size-1;i++){
@@ -55,7 +55,7 @@ public class Tableaux{
         return null;
     }
 
-    public String is_impl(Formula[] subformulas,LinkedHashSet<Formula> ret){
+    private String is_impl(Formula[] subformulas,LinkedHashSet<Formula> ret){
         int size= subformulas.length;
         for(int i=0; i < size-1;i++){
             for(int j=0 ; j < size-1;j++){
@@ -74,7 +74,7 @@ public class Tableaux{
         return null;
     }
 
-    public String is_not_impl(Formula[] subformulas,LinkedHashSet<Formula> ret){
+    private String is_not_impl(Formula[] subformulas,LinkedHashSet<Formula> ret){
         int size= subformulas.length;
         if(subformulas[size-1].numberOfAtoms() == subformulas[size-2].numberOfAtoms()){
             for(int i=0; i < size-1;i++){
@@ -96,7 +96,7 @@ public class Tableaux{
         return null;
     }
 
-    public String is_and(Formula[] subformulas,LinkedHashSet<Formula> ret){
+    private String is_and(Formula[] subformulas,LinkedHashSet<Formula> ret){
         int size= subformulas.length;
         for(int i=0; i < size-1;i++){
             for(int j=i+1 ; j < size-1;j++){
@@ -115,7 +115,7 @@ public class Tableaux{
         return null;
     }
 
-    public String is_or(Formula[] subformulas,LinkedHashSet<Formula> ret){
+    private String is_or(Formula[] subformulas,LinkedHashSet<Formula> ret){
         int size= subformulas.length;
         for(int i=0; i < size-1;i++){
             for(int j=i+1 ; j < size-1;j++){
@@ -134,7 +134,7 @@ public class Tableaux{
         return null;
     }
 
-    public String what(Formula f,LinkedHashSet<Formula> ret){
+    private String what(Formula f,LinkedHashSet<Formula> ret){
         LinkedHashSet<Formula> subFormulas = f.apply(new SubNodeFunction());
         Formula[] subform_array = new Formula[subFormulas.size()];
         subform_array= subFormulas.toArray(subform_array);
@@ -194,9 +194,12 @@ public class Tableaux{
                     for(Formula k1:current_array){
                         if(f.equals(k1.negate())){
                             verifica=true;
+                            System.out.print("\nsto tornando "+verifica+" case literal\n");
                             return verifica;
                         }
                     }
+                    System.out.print("\nsto tornando "+verifica+" case literal\n");
+                    return verifica;
                         
                     
 
@@ -216,6 +219,7 @@ public class Tableaux{
                     }
                     current.add(operands_array[1].negate());
                     root.right= new Node(path,current);
+                    System.out.print("\nricorsione case is_not_and\n");
                     return tableaux_algorithm(root.left) && tableaux_algorithm(root.right);
 
                 case "is_not_or":
@@ -228,6 +232,7 @@ public class Tableaux{
                     current.add(operands_array[0].negate());
                     current.add(operands_array[1].negate());
                     root.left=new Node(path,current);
+                    System.out.print("\nricorsione case is_not_or\n");
                     return tableaux_algorithm(root.left) && true;
                      
                 case "is_not_impl":
@@ -240,6 +245,7 @@ public class Tableaux{
                     current.add(operands_array[0]);
                     current.add(operands_array[1].negate());
                     root.left=new Node(path,current);
+                    System.out.print("\n ricorsione case is_not_impl\n");
                     return tableaux_algorithm(root.left) && true;
 
                 case "is_or":
@@ -258,6 +264,7 @@ public class Tableaux{
                     }
                     current.add(operands_array[1]);
                     root.right= new Node(path,current);
+                    System.out.print("\nricorsione case is_or\n");
                     return tableaux_algorithm(root.left) && tableaux_algorithm(root.right);
 
                 case "is_and":
@@ -270,6 +277,7 @@ public class Tableaux{
                     current.add(operands_array[0]);
                     current.add(operands_array[1]);
                     root.left=new Node(path,current);
+                    System.out.print("\nricorsione case is_and\n");
                     return tableaux_algorithm(root.left) && true;
 
                 case "is_impl":
@@ -279,7 +287,7 @@ public class Tableaux{
                     for(int j=i+1;j < root.current.size();j++){
                         current.add(current_array[j]);
                     }
-                    current.add(operands_array[0]);
+                    current.add(operands_array[0].negate());
                     root.left=new Node(path,current);
                     current=new LinkedHashSet<>();
                 
@@ -288,6 +296,7 @@ public class Tableaux{
                     }
                     current.add(operands_array[1]);
                     root.right= new Node(path,current);
+                    System.out.print("\nricorsione case is_impl\n");
                     return tableaux_algorithm(root.left) && tableaux_algorithm(root.right);
                     
                 default:

@@ -16,7 +16,7 @@ public class Node {
         closed=false;
         right = null;
         left = null;
-        contraddiction();
+        contradiction();
         if(this.path!=null){
         System.out.print("\nHo generato nodo avente:"+
                             "\n path:"+path.toString()+
@@ -26,7 +26,7 @@ public class Node {
         }
     }
 
-    public void contraddiction(){
+    public void contradiction(){
         if(this.path==null)return;
         for(Formula i:this.current){
             for(Formula j:this.path){
