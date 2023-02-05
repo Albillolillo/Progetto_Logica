@@ -49,7 +49,7 @@ public class TreePrinter {
             } else {
                 newNodes.add(null);
                 newNodes.add(null);
-                this.ret+=" $ ";
+                this.ret+="  ";
             }
             i++;
             this.printWhitespaces(10);

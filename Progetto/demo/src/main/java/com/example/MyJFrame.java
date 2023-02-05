@@ -22,7 +22,7 @@ public class MyJFrame extends JFrame{
         l1=new JLabel("Scrivere insieme formule proposizionali separate da ';'");
         tf2=new JTextField(30);
         l2=new JLabel("Scrivere formula da implicare");
-        ta=new JTextArea(20,40 );
+        ta=new JTextArea(20,40);
         ta.setEditable(false);
         sp=new JScrollPane(ta);
         invio=new JButton("Invio");
